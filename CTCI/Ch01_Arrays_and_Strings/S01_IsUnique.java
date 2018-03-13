@@ -1,5 +1,7 @@
 package CodeBase.CTCI.Ch01_Arrays_and_Strings;
 
+import java.util.Arrays;
+
 /**
  * <h1>Is Unique</h1>
  * <b>Problem:</b> Implement an algorithm to determine if a string has all unique characters. What if you cannot use additional data structures?
@@ -103,8 +105,47 @@ public class S01_IsUnique {
         return true;
     }
 
+    /**
+     * <b>Approach 04:</b> Not using Data Structure, sorting characters then checking for uniqueness & ASCII input string.
+     * Description: This method check for the uniqueness of the characters present in the input string.
+     * Assumption: ASCII input string.
+     * Logic: First all characters in the string are sorted, then in one iteration uniqueness of characters is checked.
+     * Time complexity: O(nlogn) for sorting, O(n) for checking for uniqueness
+     * Space complexity: O(n) - A character array is created from input string.
+     * Also, different sorting algorithms may take different space in memory.
+     *
+     * @param str Input string
+     * @return TRUE if all characters are unique otherwise FALSE.
+     */
+    private static boolean hasUniqueChars04(String str) {
+        int strLen = str.length();
+        if (strLen > 128) {
+            return false;
+        }
+
+        if (strLen < 2) {
+            return true;
+        }
+
+        char[] charStr = str.toCharArray();
+        Arrays.sort(charStr);
+
+        char lastChar = charStr[0];
+        int i;
+
+        for (i = 1; i < strLen; i++) {
+            if (lastChar == charStr[i]) {
+                return false;
+            }
+
+            lastChar = charStr[i];
+        }
+
+        return true;
+    }
+
     public static void main(String args[]) {
-        String[] wordsToTest = {"abc", "abb", "ab12"};
+        String[] wordsToTest = {"abc", "abb", "ab12", "abab", "cab"};
         boolean isUnique;
 
         System.out.println("Approach 01: Using Data Structure & ASCII input string.");
@@ -122,6 +163,12 @@ public class S01_IsUnique {
         System.out.println("\nApproach 03: Not using Data Structure, brute-force approach & ASCII input string.");
         for (String word: wordsToTest) {
             isUnique = hasUniqueChars03(word);
+            System.out.printf("Word: %s \t| Is Unique: %b\n", word, isUnique);
+        }
+
+        System.out.println("\nApproach 04: Not using Data Structure, sorting characters then checking for uniqueness & ASCII input string.");
+        for (String word: wordsToTest) {
+            isUnique = hasUniqueChars04(word);
             System.out.printf("Word: %s \t| Is Unique: %b\n", word, isUnique);
         }
     }
