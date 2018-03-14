@@ -1,5 +1,7 @@
 package CodeBase.DataStructures;
 
+import java.util.HashSet;
+
 /**
  * Singly Linked List
  * This class implements singly linked list data structure concept.
@@ -8,24 +10,29 @@ package CodeBase.DataStructures;
  * @version 1.0
  */
 public class SinglyLinkedList<T> {
-    private static class LinkedListNode<T> {
-        private T data;
-        private LinkedListNode next;
+    protected static class SinglyLinkedListNode<T> {
+        /**
+         * Access modifier is set to public to allow extension of SinglyLinkedList functionality in CTCI problems.
+         * In real world, instead of public variables, public Getter and Setter methods should be used.
+         * It's avoided here to keep the implementation of new functionality in CTCI solutions simple and easy to understand.
+         */
+        public T data;
+        public SinglyLinkedListNode next;
 
-        LinkedListNode(T data) {
+        SinglyLinkedListNode(T data) {
             this.data = data;
         }
     }
 
-    private LinkedListNode head;
+    protected SinglyLinkedListNode head;
 
     public void add(T data) {
-        LinkedListNode<T> node = new LinkedListNode<>(data);
+        SinglyLinkedListNode<T> node = new SinglyLinkedListNode<>(data);
 
         if (head == null) {
             head = node;
         } else {
-            LinkedListNode lastNode = head;
+            SinglyLinkedListNode lastNode = head;
             while (lastNode.next != null) {
                 lastNode = lastNode.next;
             }
@@ -41,7 +48,7 @@ public class SinglyLinkedList<T> {
         StringBuilder output = new StringBuilder();
         output.append(head.data);
 
-        LinkedListNode current = head.next;
+        SinglyLinkedListNode current = head.next;
         while(current != null) {
             output.append(" -> ").append(current.data);
             current = current.next;
