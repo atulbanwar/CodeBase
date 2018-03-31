@@ -17,8 +17,8 @@ public class S01_RemoveDuplicates {
         linkedList.add(1);
         linkedList.add(1);
         linkedList.add(3);
-        linkedList.add(3);
         linkedList.add(1);
+        linkedList.add(3);
 
         return linkedList;
     }
@@ -26,11 +26,16 @@ public class S01_RemoveDuplicates {
     public static void main(String args[]) {
         LinkedListExtension<Integer> linkedList = getLinkedListWithDuplicateElements();
 
-        System.out.println("Approach 01: Using temporary buffer to maintain unique elements.");
         System.out.println("Printing Linked List: ");
         System.out.println(linkedList.toString());
+
+        System.out.println("Approach 01: Using temporary buffer to maintain unique elements.");
         linkedList.removeDuplicates01();
-        System.out.println("Printing Linked List after removing duplicate elements: ");
+        System.out.println(linkedList.toString());
+
+        System.out.println("Approach 02: Not using Data Structure. Brute-force approach.");
+        linkedList = getLinkedListWithDuplicateElements();
+        linkedList.removeDuplicates02();
         System.out.println(linkedList.toString());
     }
 }
@@ -49,7 +54,7 @@ class LinkedListExtension<T> extends SinglyLinkedList<T> {
      * Logic: A HashSet is used to maintain unique elements,
      * linked list elements present in the set are removed from the list.
      * Time complexity: O(n)
-     * Space complexity: O(c)
+     * Space complexity: O(n)
      */
     @SuppressWarnings({"unchecked"})
     void removeDuplicates01() {
@@ -64,6 +69,37 @@ class LinkedListExtension<T> extends SinglyLinkedList<T> {
             } else {
                 assert previous != null;
                 previous.next = current.next;
+            }
+
+            current = current.next;
+        }
+    }
+
+    /**
+     * Approach 02: Not using Data Structure. Brute-force approach.
+     * Description: This method removes duplicates from an unsorted linked list.
+     * Logic: Using two pointers, when first pointer points to first element,
+     * second pointer checks for this value from second node until the end.
+     * Time complexity: O(n^2)
+     * Space complexity: O(c)
+     */
+    @SuppressWarnings({"unchecked"})
+    void removeDuplicates02() {
+        SinglyLinkedListNode current = head;
+        SinglyLinkedListNode previous, runner;
+
+        while (current != null) {
+            previous = current;
+            runner = current.next;
+
+            while (runner != null) {
+                if (current.data == runner.data) {
+                    previous.next = runner.next;
+                } else {
+                    previous = runner;
+                }
+
+                runner = runner.next;
             }
 
             current = current.next;
